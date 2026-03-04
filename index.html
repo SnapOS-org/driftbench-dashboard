@@ -217,7 +217,48 @@ tbody td.r{ text-align:right; font-family:var(--mono); font-size:12px; }
   </p>
   <div class="failure-grid" id="failureGrid"></div>
 </section>
+<section class="section">
+  <div class="section-label">Case Study</div>
+  <h2 class="section-title">Nightbank: When systems remain compliant but lose the mandate</h2>
 
+  <p class="section-sub">
+    A recurring failure mode in automated risk systems: the system stays inside its own rule set,
+    while silently drifting away from the purpose it was approved for.
+  </p>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:28px;max-width:860px;">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;">
+      NIGHTBANK · MANDATE DRIFT INCIDENT (ANONYMIZED)
+    </div>
+
+    <div style="font-size:14px;color:var(--muted);line-height:1.75;">
+      The fraud system continued to satisfy its internal checks and KPIs, yet the board-level mandate
+      (reduce high-risk exposure) was no longer respected in edge cases under business pressure.
+      The system produced “valid” decisions that could not be defended against the original risk purpose.
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:18px;">
+      <div style="background:var(--off);border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Observed state</div>
+        <div style="font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--text);">
+          Rule compliance (C<sub>k</sub>) = 1<br>
+          Mandate integrity (I<sub>k</sub>) = 0
+        </div>
+      </div>
+
+      <div style="background:var(--fail-bg);border:1px solid var(--fail-bd);border-radius:8px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--fail);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Audit implication</div>
+        <div style="font-size:13px;line-height:1.6;color:var(--fail);font-weight:800;">
+          The system can “pass controls” while producing decisions that cannot be defended under the original mandate.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:12px 16px;background:var(--fail-bg);border-left:3px solid var(--fail);border-radius:0 4px 4px 0;font-size:12px;color:var(--fail);font-weight:800;">
+      DriftBench is designed to detect exactly this: decision drift without visible control failure.
+    </div>
+  </div>
+</section>
 <section class="section section-bg-white" id="auditor">
   <div class="section-label">Live Decision Audit</div>
   <h2 class="section-title">Test one decision from your own system.</h2>
@@ -259,6 +300,69 @@ tbody td.r{ text-align:right; font-family:var(--mono); font-size:12px; }
   <style>@media (max-width:768px){#auditorGrid{grid-template-columns:1fr !important;}}</style>
 </section>
 
+<section class="section section-bg-white">
+  <div class="section-label">Audit Method</div>
+  <h2 class="section-title">DASR: How a decision audit actually runs</h2>
+
+  <p class="section-sub">
+    DriftBench does not inspect model internals. It audits decisions as traceable governance objects:
+    input, policy, witness, scope, fail-closed, and audit trace.
+  </p>
+
+  <div style="max-width:900px;border:1px solid var(--border);border-radius:8px;background:var(--white);overflow:hidden;">
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid var(--border);">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">1 · COLLECT</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Collect recent automated decisions (anonymized) + the policy artifacts they claim to follow.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid var(--border);">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">2 · BIND</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Bind each decision to its governing policy via witness tuples (policy_id + section). Missing witness = not auditable.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid var(--border);">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">3 · SCOPE</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Verify authorization: the system must not decide outside its mandated scope (e.g., business exposure > allowed threshold).
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid var(--border);">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">4 · FAIL-CLOSED</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Under uncertainty, conflict, or missing metadata: stop and escalate. Approving under uncertainty is a governance failure.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid var(--border);">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">5 · STRESS</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Re-run sealed variants (schema shift, adversarial injection, conflicting goals) to expose drift before production incidents.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:140px 1fr;gap:0;">
+      <div style="padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--dim);">6 · REPORT</div>
+      <div style="padding:14px 18px;font-size:13px;color:var(--muted);line-height:1.6;">
+        Produce an audit record: violations, invariant failures, witness gaps, scope breaches, and recommended fail-closed gates.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px 16px;background:var(--off);border:1px solid var(--border);border-radius:8px;max-width:900px;">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">
+      What auditors care about
+    </div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.65;">
+      Not “is the model smart?” — but <strong>can the institution defend a decision six months later</strong> with policy + witness + scope + escalation history.
+    </div>
+  </div>
+</section>
+  
 <section class="section" id="metrics">
   <div class="section-label">Technical Benchmark Results</div>
   <h2 class="section-title">Full evaluation detail</h2>
@@ -281,6 +385,129 @@ tbody td.r{ text-align:right; font-family:var(--mono); font-size:12px; }
   </div>
 </section>
 
+<section class="section">
+  <div class="section-label">Why this matters</div>
+  <h2 class="section-title">Black-box decisions have systemic consequences</h2>
+
+  <p class="section-sub">
+    Governance failure is not hypothetical. When decisions cannot be traced to policy,
+    institutions lose auditability first — and control later.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:980px;">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:12px;">2008 · Financial Crisis</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--muted);">
+        Model outputs were treated as decisions without audit-ready rationale.
+        When challenged, institutions could not reconstruct individual decision grounds.
+        Systemic risk stayed invisible until it was too late.
+      </div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:12px;">2012 · Knight Capital</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--muted);">
+        An automated trading system operated outside its authorized scope for ~45 minutes.
+        Dashboards stayed green. $440M loss before intervention.
+        Missing scope gates and missing fail-closed.
+      </div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:12px;">2024 · EU AI Act</div>
+      <div style="font-size:14px;line-height:1.7;color:var(--muted);">
+        Traceability, human oversight, and risk management are no longer “nice to have”.
+        Fraud decisions are high-risk by default: auditability and escalation are mandatory.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px 16px;background:var(--fail-bg);border-left:3px solid var(--fail);border-radius:0 4px 4px 0;max-width:980px;font-size:12px;color:var(--fail);font-weight:900;">
+    DriftBench is built to expose audit-breaks early: missing witness tuples, scope breaches, and fail-closed violations before a regulator finds them.
+  </div>
+</section>
+
+<section class="section section-bg-white" id="contact">
+  <div class="section-label">Evaluate your own system</div>
+  <h2 class="section-title">Run DriftBench on your decision system.</h2>
+
+  <p class="section-sub">
+    DriftBench is designed for bank-grade governance audits: policy binding, witness tuples, scope gates, and fail-closed behavior.
+    You can run it internally (no data leaves your environment) or request an independent audit report.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:980px;margin-bottom:28px;">
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:8px;padding:22px;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">
+        Option A
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px;">Run internally</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">
+        Download the benchmark and run it against your own model endpoint. Results stay with you.
+      </div>
+      <div style="margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--text);">
+        <span style="display:inline-block;border:1px solid var(--border);border-radius:6px;padding:8px 10px;background:var(--white);">
+          driftbench run --model your_endpoint
+        </span>
+      </div>
+    </div>
+
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:8px;padding:22px;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">
+        Option B
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px;">Governance audit</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">
+        We run DriftBench against your system and deliver an audit report:
+        violations, drift signatures, and recommended fail-closed gates.
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6;">
+        Typical deliverable: <strong>Decision Integrity Report (PDF)</strong> + machine-readable JSON findings.
+      </div>
+    </div>
+
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:8px;padding:22px;">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">
+        Option C
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px;">Pilot program</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">
+        Integrate GCCL monitoring into your model governance workflow:
+        continuous decision auditing, scope controls, and escalation policies.
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6;">
+        Target: <strong>audit-ready decisions</strong> under EU AI Act / internal model risk governance.
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--text);color:var(--white);border-radius:10px;padding:28px;max-width:720px;">
+    <div style="font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">
+      Contact
+    </div>
+
+    <div style="font-size:24px;font-family:var(--serif);font-weight:600;margin-bottom:8px;">
+      audit@snapos.org
+    </div>
+
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:18px;">
+      Send a short note with: decision domain (fraud / credit / AML), deployment type (API / self-hosted),
+      and whether you want an internal run or an independent audit report.
+      <br>
+      <strong>No sales process.</strong> We respond within 24 hours.
+    </div>
+
+    <div style="font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.45);line-height:1.8;">
+      GCCL v0.1 Spec:
+      <a href="https://doi.org/10.5281/zenodo.18362037" target="_blank" style="color:rgba(255,255,255,0.75);text-decoration:none;">
+        doi:10.5281/zenodo.18362037
+      </a>
+      <br>
+      Data handling: <strong>Local-only auditor</strong> · No uploads · No storage
+    </div>
+  </div>
+</section>
+  
 <footer class="footer">
   <span id="footerMeta">DriftBench</span>
   <span>
