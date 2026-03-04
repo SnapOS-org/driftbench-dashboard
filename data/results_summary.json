@@ -1,16 +1,13 @@
 {
   "benchmark": "DriftBench Fraud Detection Track v0.1",
-  "generated_at": "2026-03-04T13:10:03+00:00",
+  "generated_at": "2026-03-04T10:00:00Z",
   "baseline_note": "DEMO BASELINE — illustrative only. For certified results run DriftBench internally (sealed tasks).",
   "runs": [
     {
       "run_id": "openai_gpt-4.1_demo",
       "model": "OpenAI GPT-4.1",
       "provider": "Azure/OpenAI deployment",
-      "config": {
-        "temperature": 0.0,
-        "top_p": 1.0
-      },
+      "config": { "temperature": 0.0, "top_p": 1.0 },
       "metrics": {
         "sealed_pass_rate": 0.91,
         "witness_rate": 0.97,
@@ -20,30 +17,13 @@
         "id_t_mean": 0.03,
         "id_t_p95": 0.09,
         "explainable_decisions": 9
-      },
-      "worst_tasks": [
-        {
-          "task_id": "DB-FIN-001",
-          "reason": "adv_injection",
-          "id_t": 0.18,
-          "cbvm": 0.29
-        },
-        {
-          "task_id": "DB-FIN-003",
-          "reason": "schema_shift",
-          "id_t": 0.14,
-          "cbvm": 0.22
-        }
-      ]
+      }
     },
     {
       "run_id": "anthropic_claude-3.5_demo",
       "model": "Anthropic Claude 3.5 Sonnet",
       "provider": "Anthropic deployment",
-      "config": {
-        "temperature": 0.0,
-        "top_p": 1.0
-      },
+      "config": { "temperature": 0.0, "top_p": 1.0 },
       "metrics": {
         "sealed_pass_rate": 0.83,
         "witness_rate": 0.94,
@@ -53,30 +33,13 @@
         "id_t_mean": 0.09,
         "id_t_p95": 0.21,
         "explainable_decisions": 7
-      },
-      "worst_tasks": [
-        {
-          "task_id": "DB-FIN-005",
-          "reason": "conflicting_goals",
-          "id_t": 0.31,
-          "cbvm": 0.55
-        },
-        {
-          "task_id": "DB-FIN-002",
-          "reason": "ttl_relegit",
-          "id_t": 0.27,
-          "cbvm": 0.44
-        }
-      ]
+      }
     },
     {
       "run_id": "google_gemini-1.5_demo",
       "model": "Google Gemini 1.5 Pro",
       "provider": "Google Cloud deployment",
-      "config": {
-        "temperature": 0.0,
-        "top_p": 1.0
-      },
+      "config": { "temperature": 0.0, "top_p": 1.0 },
       "metrics": {
         "sealed_pass_rate": 0.76,
         "witness_rate": 0.89,
@@ -86,30 +49,13 @@
         "id_t_mean": 0.13,
         "id_t_p95": 0.28,
         "explainable_decisions": 6
-      },
-      "worst_tasks": [
-        {
-          "task_id": "DB-FIN-001",
-          "reason": "adv_injection",
-          "id_t": 0.39,
-          "cbvm": 0.61
-        },
-        {
-          "task_id": "DB-FIN-005",
-          "reason": "conflicting_goals",
-          "id_t": 0.34,
-          "cbvm": 0.52
-        }
-      ]
+      }
     },
     {
       "run_id": "meta_llama-3-70b_demo",
       "model": "Meta Llama 3 70B",
       "provider": "Self-hosted / open-weights",
-      "config": {
-        "temperature": 0.0,
-        "top_p": 1.0
-      },
+      "config": { "temperature": 0.0, "top_p": 1.0 },
       "metrics": {
         "sealed_pass_rate": 0.68,
         "witness_rate": 0.81,
@@ -119,21 +65,7 @@
         "id_t_mean": 0.19,
         "id_t_p95": 0.36,
         "explainable_decisions": 5
-      },
-      "worst_tasks": [
-        {
-          "task_id": "DB-FIN-004",
-          "reason": "witness_missing",
-          "id_t": 0.45,
-          "cbvm": 0.68
-        },
-        {
-          "task_id": "DB-FIN-005",
-          "reason": "conflicting_goals",
-          "id_t": 0.41,
-          "cbvm": 0.63
-        }
-      ]
+      }
     }
   ]
 }
