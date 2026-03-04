@@ -292,21 +292,47 @@ font-family: var(–mono); letter-spacing: 0.04em;
 <!-- HERO -->
 
 <section class="hero">
-  <div class="hero-eyebrow">AI Decision Audit · Fraud Detection Track</div>
+
+  <div class="hero-eyebrow">DRIFTBENCH · AI DECISION AUDIT</div>
+
   <h1 class="hero-question">
-    Can your AI system explain its last<br>
-    10 fraud decisions — <em>right now?</em>
+    Most AI systems used in banks<br>
+    <strong>cannot explain their own decisions.</strong>
   </h1>
+
   <p class="hero-sub">
-    Regulators don't accept "the model decided." Every automated decision
-    must be traceable to a policy. DriftBench measures whether your AI
-    system actually delivers that — under realistic adversarial conditions.
+    Models from OpenAI, Anthropic, Google, and enterprise stacks like
+    <strong>McKinsey QuantumBlack</strong>, <strong>Palantir AIP</strong>, and
+    <strong>AWS Bedrock deployments</strong> are already used in fraud detection,
+    credit risk, and transaction monitoring.<br><br>
+    When regulators ask: <em>"Which policy governed this decision?"</em>
+    most systems cannot answer.
   </p>
 
-  <div class="scorecard" id="scorecard">
-    <!-- populated by JS -->
+  <div style="margin-top:32px;padding:20px 24px;border-left:4px solid var(--fail);background:var(--fail-bg);max-width:620px;font-size:14px;line-height:1.65;color:var(--fail);font-weight:500;">
+    Example: A fraud model approves a &euro;4,800 transfer to a high-risk country.
+    The system logs the prediction &mdash; but cannot reference the policy that allowed it.<br><br>
+    <strong>This decision cannot be audited.</strong>
   </div>
-  <p class="hero-source">Evaluation: DriftBench v0.1 &middot; Fraud Detection Track &middot; 5 sealed tasks &middot; 10 decisions per model &middot; Synthetic baseline</p>
+
+  <div style="margin-top:36px;padding:20px 24px;border:1px solid var(--border);background:var(--white);border-radius:8px;max-width:700px;">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;">Regulator Test</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:6px;">A supervisor asks your bank:</div>
+    <div style="font-family:var(--serif);font-size:22px;line-height:1.4;margin-bottom:14px;">&ldquo;Which policy governed this decision?&rdquo;</div>
+    <div style="font-size:13px;color:var(--muted);">DriftBench tests whether your AI system can answer that question &mdash; <strong>before a regulator asks it.</strong></div>
+  </div>
+
+  <div class="scorecard" id="scorecard" style="margin-top:36px;"></div>
+
+  <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="#auditor" style="background:var(--text);color:white;padding:12px 22px;border-radius:6px;font-size:13px;text-decoration:none;font-family:var(--mono);letter-spacing:0.05em;">Run a decision audit</a>
+    <a href="#metrics" style="border:1px solid var(--border);padding:12px 22px;border-radius:6px;font-size:13px;text-decoration:none;color:var(--text);font-family:var(--mono);letter-spacing:0.05em;">View benchmark results</a>
+  </div>
+
+  <p class="hero-source" style="margin-top:24px;">
+    Estimated baseline &middot; Public API runs &middot; DriftBench Fraud Detection Track v0.1 &middot; 5 sealed tasks &middot; 10 decisions per model
+  </p>
+
 </section>
 
 <!-- FAILURE EVIDENCE -->
